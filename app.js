@@ -22,7 +22,6 @@ app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // protect from well know vulnerability
-app.use(helmet());
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -32,7 +31,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // connect to database
-var mongoDB = 'mongodb+srv://user1:escha@messageboard.qvqea.mongodb.net/?retryWrites=true&w=majority';
+var dev_db_url = 'mongodb+srv://user1:escha@messageboard.qvqea.mongodb.net/?retryWrites=true&w=majority';
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 // error handle for database connection
 var db = mongoose.connection;
